@@ -52,57 +52,57 @@ import { NextRequest, NextResponse } from "next/server";
 //   }
 // }
 
-export async function POST(
-  req: NextRequest,
-  params: { params: { storeId: string; billboardId: string } }
-) {
-  try {
-    const { userId } = auth();
-    if (!userId) return new NextResponse("unauthorized", { status: 401 });
-    const { storeId } = params.params;
+// export async function POST(
+//   req: NextRequest,
+//   params: { params: { storeId: string; billboardId: string } }
+// ) {
+//   try {
+//     const { userId } = auth();
+//     if (!userId) return new NextResponse("unauthorized", { status: 401 });
+//     const { storeId } = params.params;
 
-    const {
-      label,
-      imageUrl,
-      labelColor,
-      text,
-      shown,
-    }: {
-      label: string;
-      imageUrl: string;
-      labelColor: string;
-      text: string;
-      shown: boolean;
-    } = await req.json();
+//     const {
+//       label,
+//       imageUrl,
+//       labelColor,
+//       text,
+//       shown,
+//     }: {
+//       label: string;
+//       imageUrl: string;
+//       labelColor: string;
+//       text: string;
+//       shown: boolean;
+//     } = await req.json();
 
-    const billboardOperation = prismadb.store.update({
-      where: {
-        id: storeId,
-        userId,
-      },
-      data: {
-        billBoards: { create: { imageUrl, label, labelColor, text, shown } },
-      },
-    });
-    return billboardOperation
-      .then((e) => {
-        return NextResponse.json(
-          { message: "Created BillBoard successfully ✅", billBoard: e },
-          { status: 201 }
-        );
-      })
-      .catch((err) => {
-        console.log(err.message);
-        return NextResponse.json(
-          { message: "Error Happend ❌" },
-          { status: 500 }
-        );
-      });
-  } catch (error) {
-    console.log("###store--nested-patch########", error);
-    return NextResponse.json({ message: "Error Happend ❌" }, { status: 500 });
-  }
-}
+//     const billboardOperation = prismadb.store.update({
+//       where: {
+//         id: storeId,
+//         userId,
+//       },
+//       data: {
+//         billBoards: { create: { imageUrl, label, labelColor, text, shown } },
+//       },
+//     });
+//     return billboardOperation
+//       .then((e) => {
+//         return NextResponse.json(
+//           { message: "Created BillBoard successfully ✅", billBoard: e },
+//           { status: 201 }
+//         );
+//       })
+//       .catch((err) => {
+//         console.log(err.message);
+//         return NextResponse.json(
+//           { message: "Error Happend ❌" },
+//           { status: 500 }
+//         );
+//       });
+//   } catch (error) {
+//     console.log("###store--nested-patch########", error);
+//     return NextResponse.json({ message: "Error Happend ❌" }, { status: 500 });
+//   }
+// }
 // export async function DELETE(
 //   req: NextRequest,
 //   params: { params: { storeId: string; billboardId: string } }
@@ -165,3 +165,72 @@ export async function POST(
 //     console.log("###store--nested-patch########", error);
 //   }
 // }
+
+
+
+
+export async function POST(
+  req: NextRequest,
+  params: { params: { storeId: string } }
+) {
+  try {
+    const { userId } = auth();
+    if (!userId) return new NextResponse("unauthorized", { status: 401 });
+    const { storeId } = params.params;
+    const {
+      name,
+      categoryId,
+      colorId,
+      description,
+      isArchived,
+      sizeId,
+      updatedAt,
+      price,
+      isFeatured,
+      images,
+      animal,
+      colors,
+    }: any = await req.json();
+
+    if (!name) return new NextResponse("no name Provided", { status: 401 });
+
+    if (name) {
+      const productsOperation = prismadb.product.create({
+        data: {
+          storeId,
+          name,
+          categoryId,
+          description,
+          isArchived,
+          sizeId,
+          updatedAt,
+          price,
+          isFeatured,
+          animal,
+          images: {
+            createMany: { data: [...images.map((url) => ({ url }))] },
+          },
+          color: {
+            connect: colors.map((id: string) => ({ id })),
+          },
+        },
+      });
+      return productsOperation
+        .then((e) => {
+          return NextResponse.json(
+            { message: "Created product successfully ✅", product: e },
+            { status: 201 }
+          );
+        })
+        .catch((err) => {
+          console.log(err.message);
+          return NextResponse.json(
+            { message: "Error Happend ❌" },
+            { status: 500 }
+          );
+        });
+    }
+  } catch (error) {
+    console.log("###product--nested-post########", error);
+  }
+}
