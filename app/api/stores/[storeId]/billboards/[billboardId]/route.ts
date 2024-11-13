@@ -1,3 +1,4 @@
+
 import prismadb from "@/lib/prismabd";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -100,7 +101,6 @@ export async function POST(
       });
   } catch (error) {
     console.log("###store--nested-patch########", error);
-    return NextResponse.json({ message: "Error Happend ❌" }, { status: 500 });
   }
 }
 export async function DELETE(
@@ -165,5 +165,3 @@ export async function GET(
     console.log("###store--nested-patch########", error);
   }
 }
-
-
