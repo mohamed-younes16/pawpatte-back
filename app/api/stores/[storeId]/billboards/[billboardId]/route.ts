@@ -169,68 +169,68 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 
-export async function POST(
-  req: NextRequest,
-  params: { params: { storeId: string } }
-) {
-  try {
-    const { userId } = auth();
-    if (!userId) return new NextResponse("unauthorized", { status: 401 });
-    const { storeId } = params.params;
-    const {
-      name,
-      categoryId,
-      colorId,
-      description,
-      isArchived,
-      sizeId,
-      updatedAt,
-      price,
-      isFeatured,
-      images,
-      animal,
-      colors,
-    }: any = await req.json();
+// export async function POST(
+//   req: NextRequest,
+//   params: { params: { storeId: string } }
+// ) {
+//   try {
+//     const { userId } = auth();
+//     if (!userId) return new NextResponse("unauthorized", { status: 401 });
+//     const { storeId } = params.params;
+//     const {
+//       name,
+//       categoryId,
+//       colorId,
+//       description,
+//       isArchived,
+//       sizeId,
+//       updatedAt,
+//       price,
+//       isFeatured,
+//       images,
+//       animal,
+//       colors,
+//     }: any = await req.json();
 
-    if (!name) return new NextResponse("no name Provided", { status: 401 });
+//     if (!name) return new NextResponse("no name Provided", { status: 401 });
 
-    if (name) {
-      const productsOperation = prismadb.product.create({
-        data: {
-          storeId,
-          name,
-          categoryId,
-          description,
-          isArchived,
-          sizeId,
-          updatedAt,
-          price,
-          isFeatured,
-          animal,
-          images: {
-            createMany: { data: [...images.map((url) => ({ url }))] },
-          },
-          color: {
-            connect: colors.map((id: string) => ({ id })),
-          },
-        },
-      });
-      return productsOperation
-        .then((e) => {
-          return NextResponse.json(
-            { message: "Created product successfully ✅", product: e },
-            { status: 201 }
-          );
-        })
-        .catch((err) => {
-          console.log(err.message);
-          return NextResponse.json(
-            { message: "Error Happend ❌" },
-            { status: 500 }
-          );
-        });
-    }
-  } catch (error) {
-    console.log("###product--nested-post########", error);
-  }
-}
+//     if (name) {
+//       const productsOperation = prismadb.product.create({
+//         data: {
+//           storeId,
+//           name,
+//           categoryId,
+//           description,
+//           isArchived,
+//           sizeId,
+//           updatedAt,
+//           price,
+//           isFeatured,
+//           animal,
+//           images: {
+//             createMany: { data: [...images.map((url) => ({ url }))] },
+//           },
+//           color: {
+//             connect: colors.map((id: string) => ({ id })),
+//           },
+//         },
+//       });
+//       return productsOperation
+//         .then((e) => {
+//           return NextResponse.json(
+//             { message: "Created product successfully ✅", product: e },
+//             { status: 201 }
+//           );
+//         })
+//         .catch((err) => {
+//           console.log(err.message);
+//           return NextResponse.json(
+//             { message: "Error Happend ❌" },
+//             { status: 500 }
+//           );
+//         });
+//     }
+//   } catch (error) {
+//     console.log("###product--nested-post########", error);
+//   }
+// }
