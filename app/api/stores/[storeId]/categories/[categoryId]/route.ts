@@ -1,4 +1,3 @@
-import { color } from "@prisma/client";
 import prismadb from "@/lib/prismabd";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";

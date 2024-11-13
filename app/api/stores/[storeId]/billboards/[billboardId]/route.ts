@@ -3,55 +3,55 @@ import prismadb from "@/lib/prismabd";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(
-  req: NextRequest,
-  params: { params: { storeId: string; billboardId: string } }
-) {
-  try {
-    const { userId } = auth();
-    if (!userId) return new NextResponse("unauthorized", { status: 401 });
-    const { billboardId, storeId } = params.params;
-    const {
-      label,
-      imageUrl,
-      labelColor,
-      shown,
-    }: { label: string; imageUrl: string; labelColor: string; shown: boolean } =
-      await req.json();
+// export async function PATCH(
+//   req: NextRequest,
+//   params: { params: { storeId: string; billboardId: string } }
+// ) {
+//   try {
+//     const { userId } = auth();
+//     if (!userId) return new NextResponse("unauthorized", { status: 401 });
+//     const { billboardId, storeId } = params.params;
+//     const {
+//       label,
+//       imageUrl,
+//       labelColor,
+//       shown,
+//     }: { label: string; imageUrl: string; labelColor: string; shown: boolean } =
+//       await req.json();
 
-    const billboardOperation = prismadb.store.update({
-      where: {
-        id: storeId,
-        userId,
-      },
-      data: {
-        billBoards: {
-          update: {
-            where: { id: billboardId },
-            data: { imageUrl, label, labelColor, shown },
-          },
-        },
-      },
-    });
+//     const billboardOperation = prismadb.store.update({
+//       where: {
+//         id: storeId,
+//         userId,
+//       },
+//       data: {
+//         billBoards: {
+//           update: {
+//             where: { id: billboardId },
+//             data: { imageUrl, label, labelColor, shown },
+//           },
+//         },
+//       },
+//     });
 
-    return billboardOperation
-      .then((e) => {
-        return NextResponse.json(
-          { message: "Updated BillBoard successfully ✅", billBoard: e },
-          { status: 201 }
-        );
-      })
-      .catch((err) => {
-        console.log(err.message);
-        return NextResponse.json(
-          { message: "Error Happend ❌" },
-          { status: 500 }
-        );
-      });
-  } catch (error) {
-    console.log("###store--nested-patch########", error);
-  }
-}
+//     return billboardOperation
+//       .then((e) => {
+//         return NextResponse.json(
+//           { message: "Updated BillBoard successfully ✅", billBoard: e },
+//           { status: 201 }
+//         );
+//       })
+//       .catch((err) => {
+//         console.log(err.message);
+//         return NextResponse.json(
+//           { message: "Error Happend ❌" },
+//           { status: 500 }
+//         );
+//       });
+//   } catch (error) {
+//     console.log("###store--nested-patch########", error);
+//   }
+// }
 
 export async function POST(
   req: NextRequest,
