@@ -53,56 +53,56 @@ import { NextRequest, NextResponse } from "next/server";
 //   }
 // }
 
-// export async function POST(
-//   req: NextRequest,
-//   params: { params: { storeId: string; billboardId: string } }
-// ) {
-//   try {
-//     const { userId } = auth();
-//     if (!userId) return new NextResponse("unauthorized", { status: 401 });
-//     const { storeId } = params.params;
+export async function POST(
+  req: NextRequest,
+  params: { params: { storeId: string; billboardId: string } }
+) {
+  try {
+    const { userId } = auth();
+    if (!userId) return new NextResponse("unauthorized", { status: 401 });
+    const { storeId } = params.params;
 
-//     const {
-//       label,
-//       imageUrl,
-//       labelColor,
-//       text,
-//       shown,
-//     }: {
-//       label: string;
-//       imageUrl: string;
-//       labelColor: string;
-//       text: string;
-//       shown: boolean;
-//     } = await req.json();
+    const {
+      label,
+      imageUrl,
+      labelColor,
+      text,
+      shown,
+    }: {
+      label: string;
+      imageUrl: string;
+      labelColor: string;
+      text: string;
+      shown: boolean;
+    } = await req.json();
 
-//     const billboardOperation = prismadb.store.update({
-//       where: {
-//         id: storeId,
-//         userId,
-//       },
-//       data: {
-//         billBoards: { create: { imageUrl, label, labelColor, text, shown } },
-//       },
-//     });
-//     return billboardOperation
-//       .then((e) => {
-//         return NextResponse.json(
-//           { message: "Created BillBoard successfully ✅", billBoard: e },
-//           { status: 201 }
-//         );
-//       })
-//       .catch((err) => {
-//         console.log(err.message);
-//         return NextResponse.json(
-//           { message: "Error Happend ❌" },
-//           { status: 500 }
-//         );
-//       });
-//   } catch (error) {
-//     console.log("###store--nested-patch########", error);
-//   }
-// }
+    const billboardOperation = prismadb.store.update({
+      where: {
+        id: storeId,
+        userId,
+      },
+      data: {
+        billBoards: { create: { imageUrl, label, labelColor, text, shown } },
+      },
+    });
+    return billboardOperation
+      .then((e) => {
+        return NextResponse.json(
+          { message: "Created BillBoard successfully ✅", billBoard: e },
+          { status: 201 }
+        );
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return NextResponse.json(
+          { message: "Error Happend ❌" },
+          { status: 500 }
+        );
+      });
+  } catch (error) {
+    console.log("###store--nested-patch########", error);
+  }
+}
 // export async function DELETE(
 //   req: NextRequest,
 //   params: { params: { storeId: string; billboardId: string } }
