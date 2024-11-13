@@ -33,11 +33,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
-    config.ignoreWarnings = [
-      {
-        message: /Unexpected end of JSON input/,
-      },
-    ];
+    config.experiments = {
+      topLevelAwait: true,
+    };
     return config;
   },
 };
