@@ -1,9 +1,9 @@
 "use client";
 
+import CellActionButton from "@/components/CellActionButton";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import CellAction from "./CellAction";
+import { ArrowUpDown } from "lucide-react";
 
 export type DiscountColumn = {
   id: string;
@@ -56,7 +56,9 @@ export const columns: ColumnDef<DiscountColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton edit routeName="discount" dataId={row.original.id} />
+      );
     },
   },
 ];

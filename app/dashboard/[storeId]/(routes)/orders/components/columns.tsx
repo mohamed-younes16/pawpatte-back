@@ -1,9 +1,9 @@
 "use client";
 
+import CellActionButton from "@/components/CellActionButton";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-
 
 export type orderColumn = {
   id: string;
@@ -12,11 +12,10 @@ export type orderColumn = {
   phone: string;
   address: string;
   totalPrice: number;
-  products:string
+  products: string;
 };
 
 export const columns: ColumnDef<orderColumn>[] = [
-
   {
     accessorKey: "products",
     header: "products",
@@ -27,13 +26,17 @@ export const columns: ColumnDef<orderColumn>[] = [
   },
   {
     accessorKey: "phone",
-    header: "phone",
+
+    cell: ({ row }) => {
+      return (
+        <div className="font-bold whitespace-nowrap">{row.original.phone}</div>
+      );
+    },
   },
   {
     accessorKey: "createdAt",
     header: "Created at",
-  }
-  ,
+  },
   {
     accessorKey: "totalPrice",
     header: ({ column }) => {
@@ -48,20 +51,30 @@ export const columns: ColumnDef<orderColumn>[] = [
       );
     },
     cell: ({ row }) => {
-
-      const amount = parseFloat(row.getValue("totalPrice"))
+      const amount = parseFloat(row.getValue("totalPrice"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
- 
-      return <div className="font-bold">{formatted}</div>
+      }).format(amount);
+
+      return <div className="font-bold">{formatted}</div>;
     },
   },
-  
+
   {
     accessorKey: "isPaid",
     header: "is paid",
   },
-
-]
+  {
+    id: "action",
+    cell: ({ row }) => {
+      return (
+        <CellActionButton
+          edit={false}
+          routeName="orders"
+          dataId={row.original.id}
+        />
+      );
+    },
+  },
+];

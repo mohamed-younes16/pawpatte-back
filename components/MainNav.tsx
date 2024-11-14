@@ -2,12 +2,10 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 const MainNav = () => {
-
-
-  const [index, setindex] = useState<number|null>(null);
+  const [index, setindex] = useState<number | null>(null);
   const params = useParams();
   const pathname = usePathname();
   const routes = [
@@ -47,6 +45,11 @@ const MainNav = () => {
       active: pathname === `/dashboard/${params?.storeId}/discount`,
     },
     {
+      href: `/dashboard/${params?.storeId}/guarantee`,
+      label: `Guarantee`,
+      active: pathname === `/dashboard/${params?.storeId}/guarantee`,
+    },
+    {
       href: `/dashboard/${params?.storeId}/orders`,
       label: `Orders`,
       active: pathname === `/dashboard/${params?.storeId}/orders`,
@@ -59,12 +62,14 @@ const MainNav = () => {
   ];
   return (
     <div className=" flex gap-[10px] relative">
-      {index!==null && <div
-        style={{ translate: `${80 * index + index * 10}px 0` }}
-        className={`absolute origin-left duration-150
+      {index !== null && (
+        <div
+          style={{ translate: `${80 * index + index * 10}px 0` }}
+          className={`absolute origin-left duration-150
           bottom-0 left-0 z-10 h-[4px] w-[80px]
             bg-cyan-400  `}
-      />}
+        />
+      )}
 
       {routes.map((e, i) => (
         <div

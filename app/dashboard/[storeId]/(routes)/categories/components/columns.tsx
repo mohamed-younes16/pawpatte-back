@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import CellAction from "./CellAction";
+import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
+import CellActionButton from "@/components/CellActionButton";
 
 export type categoryColumn = {
   id: string;
@@ -37,7 +37,9 @@ export const columns: ColumnDef<categoryColumn>[] = [
     accessorKey: "logo",
     header: "logo ",
 
-    cell: ({ row }) =><Image height={50} width={50} alt="" src={row.original.logo}/> 
+    cell: ({ row }) => (
+      <Image height={50} width={50} alt="" src={row.original.logo} />
+    ),
   },
   {
     accessorKey: "billboardLabel",
@@ -48,7 +50,13 @@ export const columns: ColumnDef<categoryColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton
+          edit
+          routeName="categories"
+          dataId={row.original.id}
+        />
+      );
     },
   },
 ];

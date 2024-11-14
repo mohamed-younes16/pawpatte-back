@@ -55,3 +55,11 @@ export const productSchema = z.object({
   animal: z.enum(["DOG", "CAT"]),
   stars: z.number().min(1).max(5).optional().default(5),
 });
+export const GuaranteeSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(1, "Phone number is required"),
+  address: z.string().min(1, "Address is required"),
+  orderId: z.string().min(1, "Serial number is required"),
+  notes: z.string().default(""),
+});

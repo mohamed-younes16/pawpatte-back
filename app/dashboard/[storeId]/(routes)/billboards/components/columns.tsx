@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import CellAction from "./CellAction";
+import { ArrowUpDown } from "lucide-react";
+import CellActionButton from "@/components/CellActionButton";
 import Image from "next/image";
 
 export type BillBoardColumn = {
@@ -78,7 +78,13 @@ export const columns: ColumnDef<BillBoardColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton
+          edit
+          routeName="billboards"
+          dataId={row.original.id}
+        />
+      );
     },
   },
 ];

@@ -1,9 +1,9 @@
 "use client";
 
+import CellActionButton from "@/components/CellActionButton";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown,  } from "lucide-react";
-import CellAction from "./CellAction";
+import { ArrowUpDown } from "lucide-react";
 
 export type ColorColumn = {
   id: string;
@@ -35,7 +35,8 @@ export const columns: ColumnDef<ColorColumn>[] = [
           {row.original.value}{" "}
           <div
             style={{ backgroundColor: row.original.value }}
-            className="rounded-full border-2 border-foreground w-6 h-6"/>
+            className="rounded-full border-2 border-foreground w-6 h-6"
+          />
         </div>
       );
     },
@@ -47,7 +48,13 @@ export const columns: ColumnDef<ColorColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton
+          edit
+          routeName="colors"
+          dataId={row.original.id}
+        />
+      );
     },
   },
 ];

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import CellAction from "./CellAction";
+
 
 import Image from "next/image";
 import {
@@ -11,6 +11,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import CellActionButton from "@/components/CellActionButton";
 
 export type ProductColumn = {
   id: string;
@@ -46,7 +47,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-6 ">
-          <HoverCard >
+          <HoverCard>
             <HoverCardTrigger asChild>
               <Button variant={"outline"} size={"icon"}>
                 {" "}
@@ -136,7 +137,9 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton edit routeName="products" dataId={row.original.id} />
+      );
     },
   },
 ];

@@ -47,7 +47,7 @@ const page = async ({
   }));
 
   return (
-    <div id="content" className="p-6">
+    <div id="content" className="p-6 ">
       <div className="flex items-center justify-between">
         <Heading
           title={`orders (${orders.length})`}
@@ -56,7 +56,7 @@ const page = async ({
         {inactiveOrders && <CleanUp cleanUp={cleanUp} />}
       </div>{" "}
       <Separator className="my-6" />
-      <DataTable searchKey="name" columns={columns} data={formattedorders} />
+      <DataTable searchKey="name"   columns={columns} data={formattedorders} />
     </div>
   );
 };

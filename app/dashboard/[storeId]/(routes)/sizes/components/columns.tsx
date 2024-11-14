@@ -1,15 +1,15 @@
 "use client";
 
+import CellActionButton from "@/components/CellActionButton";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import CellAction from "./CellAction";
+import { ArrowUpDown } from "lucide-react";
 
 export type SizeColumn = {
   id: string;
   name: string;
   createdAt: string;
-  value:string
+  value: string;
 };
 
 export const columns: ColumnDef<SizeColumn>[] = [
@@ -26,7 +26,8 @@ export const columns: ColumnDef<SizeColumn>[] = [
         </Button>
       );
     },
-  }, {
+  },
+  {
     accessorKey: "value",
     header: ({ column }) => {
       return (
@@ -47,8 +48,9 @@ export const columns: ColumnDef<SizeColumn>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-    
-      return <CellAction data={row.original} />;
+      return (
+        <CellActionButton edit routeName="sizes" dataId={row.original.id} />
+      );
     },
   },
 ];
