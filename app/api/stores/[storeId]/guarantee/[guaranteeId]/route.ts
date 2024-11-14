@@ -113,7 +113,7 @@ export async function DELETE(
   try {
     const { userId } = auth();
     if (!userId) return new NextResponse("unauthorized", { status: 401 });
-    const { guaranteeId, } = params.params;
+    const { guaranteeId } = params.params;
 
     const guranteeOperation = prismadb.guarantee.delete({
       where: {
