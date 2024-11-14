@@ -83,12 +83,13 @@ const ProducForm = ({
   const description = notEmpty ? "Edit product" : "Create product";
   const action = notEmpty ? "updating" : "creating";
 
-
   const [begain, setBegain] = useState(false);
   const [start, setstart] = useState(0);
+  console.log(product);
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
+      stars: product.stars || 5,
       categoryId: product?.categoryId || "",
       sizeId: product?.sizeId || "",
       name: product?.name || "",
@@ -111,7 +112,7 @@ const ProducForm = ({
   } = form;
 
   useEffect(() => {
-    console.log(isSubmitting)
+    console.log(isSubmitting);
     setIsLoading(isSubmitting);
   }, [form.formState]);
 
@@ -135,7 +136,7 @@ const ProducForm = ({
 
           toast.success(e.data.message, { invert: true });
 
-          window.location.assign(`/dashboard/${storeId}/products`);
+          window.location.reload();
         })
         .catch((e) => {
           toast.dismiss();
@@ -276,6 +277,29 @@ const ProducForm = ({
                         className="account-form_input "
                         type="number"
                         {...register("price", { valueAsNumber: true })}
+                      />
+                    </>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="stars"
+              render={() => (
+                <FormItem className=" flex flex-col w-full   ">
+                  <FormLabel>Stars of Product</FormLabel>
+
+                  <FormControl className="flex items-center">
+                    <>
+                      {" "}
+                      <Input
+                        className="account-form_input "
+                        type="number"
+                        max={5}
+                        step={0.25}
+                        min={1}
+                        {...register("stars", { valueAsNumber: true })}
                       />
                     </>
                   </FormControl>

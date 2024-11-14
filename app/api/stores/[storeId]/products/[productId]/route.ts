@@ -20,8 +20,10 @@ export async function PATCH(
       sizeId,
       price,
       isFeatured,
+      animal,
       images,
       colors,
+      stars,
     }: z.infer<typeof productSchema> = await req.json();
 
     if (!name) return new NextResponse("no name Provided", { status: 401 });
@@ -38,6 +40,7 @@ export async function PATCH(
           description,
           isArchived,
           sizeId,
+          stars,
           price,
           isFeatured,
           images: {
@@ -81,17 +84,16 @@ export async function POST(
     const {
       name,
       categoryId,
-      colorId,
       description,
       isArchived,
       sizeId,
-      updatedAt,
       price,
       isFeatured,
       images,
       animal,
       colors,
-    }: any = await req.json();
+      stars,
+    }: z.infer<typeof productSchema> = await req.json();
 
     if (!name) return new NextResponse("no name Provided", { status: 401 });
 
@@ -104,7 +106,7 @@ export async function POST(
           description,
           isArchived,
           sizeId,
-          updatedAt,
+          stars,
           price,
           isFeatured,
           animal,

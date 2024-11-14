@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npx prisma generate && next dev -p 5000 ",
-    "build": "npx prisma generate --no-engine && next build ",
+    "build": "npx prisma generate && next build ",
     "start": "next start ",
     "lint": "next lint",
     "predeploy": "npm run build",

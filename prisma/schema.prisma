@@ -27,7 +27,7 @@ model User {
   discount       discount[]  @relation("discountToUser")
 
   @@unique([name])
-  @@index([id])
+  @@index([id, email])
 }
 
 model Account {
@@ -154,25 +154,25 @@ model color {
 }
 
 model product {
-  id           String      @id @unique @default(cuid())
-  storeId      String
-  store        Store       @relation("storetoProduct", fields: [storeId], references: [id], onDelete: Cascade)
-  name         String
-  sizeId       String
-  size         size        @relation("productosize", fields: [sizeId], references: [id])
-  categoryId   String
-  category     category    @relation("productocategory", fields: [categoryId], references: [id])
-  color        color[]
-  price        Int
-  animal       Animal
-  description  String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  isArchived   Boolean
-  isFeatured   Boolean
-  images       Image[]     @relation("imageToProduct")
-  orderItems   orderItem[] @relation("productToItem")
-  guranteeList Guarantee[]
+  id          String      @id @unique @default(cuid())
+  storeId     String
+  store       Store       @relation("storetoProduct", fields: [storeId], references: [id], onDelete: Cascade)
+  name        String
+  sizeId      String
+  size        size        @relation("productosize", fields: [sizeId], references: [id])
+  categoryId  String
+  category    category    @relation("productocategory", fields: [categoryId], references: [id])
+  color       color[]
+  price       Int
+  stars       Float?      @default(5)
+  animal      Animal
+  description String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  isArchived  Boolean
+  isFeatured  Boolean
+  images      Image[]     @relation("imageToProduct")
+  orderItems  orderItem[] @relation("productToItem")
 
   @@index([id])
 }
@@ -197,19 +197,16 @@ enum Animal {
 }
 
 model Guarantee {
-  id           String @id @unique @default(cuid())
-  fullName     String
-  email        String @unique
-  phone        String
-  address      String
-  productName  String
-  serialNumber String
-  notes        String @default("")
-  userEmail    String
-  costumer     User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  id       String @id @unique @default(cuid())
+  fullName String
+  email    String @unique
+  costumer User   @relation(fields: [email], references: [email], onDelete: Cascade)
+  phone    String
+  address  String
 
-  productId String
-  product   product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderId String @unique
+  order   order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  notes   String @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -242,6 +239,7 @@ model order {
   updatedAt       DateTime    @updatedAt
   discountCode    String?
   discountUsed    discount?   @relation(fields: [discountCode], references: [id])
+  gaurantee       Guarantee?
 
   @@index([id])
 }

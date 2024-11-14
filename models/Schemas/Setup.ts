@@ -53,4 +53,5 @@ export const productSchema = z.object({
   isFeatured: z.boolean(),
   images: z.string().array().min(1),
   animal: z.enum(["DOG", "CAT"]),
+  stars: z.number().min(1).max(5).optional().default(5),
 });
