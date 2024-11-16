@@ -1,8 +1,8 @@
 import prismadb from "@/lib/prismabd";
+import { productSchema } from "@/models/Schemas/Setup";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { productSchema } from "../../../../../../models/Schemas/Setup";
 
 export async function PATCH(
   req: NextRequest,
@@ -41,6 +41,7 @@ export async function PATCH(
           isArchived,
           sizeId,
           stars,
+          animal,
           price,
           isFeatured,
           images: {

@@ -164,55 +164,61 @@ const ProducForm = ({
               control={control}
               name="images"
               render={({ field }) => (
-                <FormItem className=" flex gap-6 col-span-full items-start  flex-wrap ">
-                  <FormLabel>image</FormLabel>
+                <FormItem className=" flex gap-6 col-span-full items-center  flex-wrap ">
+                  <div className="w-full space-y-6">
+                    <FormLabel className="">image</FormLabel>
 
-                  {field.value.length > 0 && (
-                    <Carousel
-                      opts={{ startIndex: start }}
-                      className="w-full !m-0 max-h-[350px] max-w-lg"
-                    >
-                      <CarouselContent>
-                        {field.value?.map((image) => (
-                          <CarouselItem key={image}>
-                            <div className="p-1">
-                              <Card>
-                                <CardContent className="flex max-[500px]:h-[250px] max-md:h-[300px] h-[350px]   items-center justify-center p-6">
-                                  <>
-                                    <FormLabel
-                                      className="  relative 
+                    {field.value.length > 0 && (
+                      <Carousel
+                        opts={{ startIndex: start }}
+                        className="w-full m-0 max-h-[350px] max-w-lg"
+                      >
+                        <CarouselContent>
+                          {field.value?.map((image) => (
+                            <CarouselItem key={image}>
+                              <div>
+                                <Card>
+                                  <CardContent className="flex max-[500px]:h-[250px] max-md:h-[300px] h-[350px]   items-center justify-center p-6">
+                                    <>
+                                      <FormLabel
+                                        className="  relative 
                            w-full  m-0 h-full
                           bg-zinc-900 rounded-xl  flexcenter "
-                                    >
-                                      <Trash2
-                                        onClick={() => {
-                                          const filterd = field.value.filter(
-                                            (e) => e !== image
-                                          );
-                                          field.onChange(filterd);
-                                        }}
-                                        className="absolute cursor-pointer transition-all  
+                                      >
+                                        <Trash2
+                                          onClick={() => {
+                                            const filterd = field.value.filter(
+                                              (e) => e !== image
+                                            );
+                                            form.setValue("images", filterd, {
+                                              shouldDirty: true,
+                                              shouldTouch: true,
+                                              shouldValidate: true,
+                                            });
+                                          }}
+                                          className="absolute cursor-pointer transition-all  
                       hover:scale-105 bg-red-500 top-0 right-0
                       rounded-md  p-2 h-10 w-10 text-white z-50"
-                                      />
-                                      <Image
-                                        src={image}
-                                        className="object-contain rounded-lg"
-                                        alt="image "
-                                        fill
-                                      />
-                                    </FormLabel>
-                                  </>
-                                </CardContent>
-                              </Card>
-                            </div>
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <CarouselPrevious />
-                      <CarouselNext />
-                    </Carousel>
-                  )}
+                                        />
+                                        <Image
+                                          src={image}
+                                          className="object-contain rounded-lg"
+                                          alt="image "
+                                          fill
+                                        />
+                                      </FormLabel>
+                                    </>
+                                  </CardContent>
+                                </Card>
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                      </Carousel>
+                    )}
+                  </div>
 
                   <div className="flex !m-0">
                     <UploadButton
@@ -396,8 +402,11 @@ const ProducForm = ({
                                   : field.value?.filter(
                                       (id: string) => id !== color.id
                                     );
-
-                                field.onChange(updatedColors); // Update form state with new color selection
+                                form.setValue("colors", updatedColors, {
+                                  shouldDirty: true,
+                                  shouldTouch: true,
+                                  shouldValidate: true,
+                                });
                               }}
                             >
                               <div className="flex items-center gap-2">
@@ -425,7 +434,13 @@ const ProducForm = ({
                   <FormControl>
                     <Select
                       defaultValue={product?.sizeId}
-                      onValueChange={(e) => field.onChange(e)}
+                      onValueChange={(e) =>
+                        form.setValue("sizeId", e, {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                          shouldValidate: true,
+                        })
+                      }
                     >
                       <SelectTrigger className=" !w-full ring-0 !shadow-none">
                         <SelectValue placeholder="Select a size" />
@@ -458,7 +473,13 @@ const ProducForm = ({
                   <FormControl>
                     <Select
                       defaultValue={product?.categoryId}
-                      onValueChange={(e) => field.onChange(e)}
+                      onValueChange={(e) =>
+                        form.setValue("categoryId", e, {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                          shouldValidate: true,
+                        })
+                      }
                     >
                       <SelectTrigger className=" !w-full  ring-0 !shadow-none">
                         <SelectValue placeholder="Select a category" />
@@ -486,7 +507,16 @@ const ProducForm = ({
                 <FormItem className=" flex flex-col w-fit   ">
                   <FormLabel>choose an animal</FormLabel>
                   <FormControl>
-                    <Select onValueChange={(e) => field.onChange(e)}>
+                    <Select
+                      defaultValue={product?.animal || ""}
+                      onValueChange={(e: "DOG" | "CAT") =>
+                        form.setValue("animal", e, {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                          shouldValidate: true,
+                        })
+                      }
+                    >
                       <SelectTrigger className="w-[180px] ring-0 !shadow-none">
                         <SelectValue placeholder="Select an animal" />
                       </SelectTrigger>
@@ -547,11 +577,11 @@ const ProducForm = ({
               )}
             />
           </div>
-          {isDirty && (
+          { (
             <div className="flex items-center gap-6 justify-start">
               <Button
                 type="submit"
-                disabled={isLoading || !form.formState.isValid}
+                disabled={isLoading ||!isDirty || !form.formState.isValid}
                 className={`${
                   isLoading ? " bg-foreground" : ""
                 } flexcenter w-[100px] gap-6`}
