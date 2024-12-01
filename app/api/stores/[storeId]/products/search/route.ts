@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
+  { params }: { params: { storeId: string } }
 ) {
   try {
     const searchQuery = req.nextUrl.searchParams.get("q") || "";
@@ -17,6 +18,7 @@ export async function GET(
         productsOperation = prismadb.product.findMany({
           where: {
             animal: isAnimalSearch,
+            storeId: params.storeId,
           },
           include: {
             category: true,
@@ -32,6 +34,7 @@ export async function GET(
               contains: searchQuery,
               mode: "insensitive",
             },
+            storeId:  params.storeId,
           },
           include: {
             category: true,

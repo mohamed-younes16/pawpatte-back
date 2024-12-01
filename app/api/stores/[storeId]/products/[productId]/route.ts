@@ -49,7 +49,7 @@ export async function PATCH(
             createMany: { data: [...images.map((url) => ({ url }))] },
           },
           color: {
-            set: colors.map((id: string) => ({ id })),
+            set: colors?.map((id: string) => ({ id })),
           },
         },
       });
@@ -103,10 +103,10 @@ export async function POST(
         data: {
           storeId,
           name,
-          categoryId,
+          categoryId: categoryId || null,
           description,
           isArchived,
-          sizeId,
+          sizeId: sizeId || null,
           stars,
           price,
           isFeatured,
@@ -114,9 +114,9 @@ export async function POST(
           images: {
             createMany: { data: [...images.map((url) => ({ url }))] },
           },
-          color: {
+          color: colors && colors.length > 0 ? {
             connect: colors.map((id: string) => ({ id })),
-          },
+          } : undefined,
         },
       });
       return productsOperation

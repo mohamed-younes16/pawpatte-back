@@ -158,10 +158,10 @@ model product {
   storeId     String
   store       Store       @relation("storetoProduct", fields: [storeId], references: [id], onDelete: Cascade)
   name        String
-  sizeId      String
-  size        size        @relation("productosize", fields: [sizeId], references: [id])
-  categoryId  String
-  category    category    @relation("productocategory", fields: [categoryId], references: [id])
+  sizeId      String?
+  size        size?        @relation("productosize", fields: [sizeId], references: [id])
+  categoryId  String?
+  category    category?    @relation("productocategory", fields: [categoryId], references: [id])
   color       color[]
   price       Int
   stars       Float?      @default(5)

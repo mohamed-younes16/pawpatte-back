@@ -44,9 +44,9 @@ export const colorSchema = z.object({
 
 export const productSchema = z.object({
   name: z.string().min(4),
-  sizeId: z.string().min(1),
-  categoryId: z.string().min(1),
-  colors: z.array(z.string()).min(1),
+  sizeId: z.string().optional().nullable(),
+  categoryId: z.string().optional().nullable(),
+  colors: z.array(z.string()).optional(),
   price: z.number().min(1),
   description: z.string().min(1),
   isArchived: z.boolean(),

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx prisma generate && next dev -p 5000 ",
     "build": "npx prisma generate && next build ",
-    "start": "next start ",
+    "start": "next start -p 5000  ",
     "lint": "next lint",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

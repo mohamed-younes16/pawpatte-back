@@ -85,13 +85,13 @@ const ProducForm = ({
 
   const [begain, setBegain] = useState(false);
   const [start, setstart] = useState(0);
-  console.log(product);
+  
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       stars: product.stars || 5,
-      categoryId: product?.categoryId || "",
-      sizeId: product?.sizeId || "",
+      categoryId: product?.categoryId || null,
+      sizeId: product?.sizeId || null,
       name: product?.name || "",
       description: product?.description || "",
       isArchived: product?.isArchived || false,
@@ -102,6 +102,7 @@ const ProducForm = ({
       colors: product?.color || [],
     },
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     control,
@@ -111,8 +112,12 @@ const ProducForm = ({
     register,
   } = form;
 
+  // useEffect(() => {
+  //   console.log(form.getValues() ,form.formState.isValid)
+  // }, [form.formState])
+  
   useEffect(() => {
-    console.log(isSubmitting);
+
     setIsLoading(isSubmitting);
   }, [form.formState]);
 
@@ -282,6 +287,7 @@ const ProducForm = ({
                       <Input
                         className="account-form_input "
                         type="number"
+                        min={1}
                         {...register("price", { valueAsNumber: true })}
                       />
                     </>
@@ -394,7 +400,7 @@ const ProducForm = ({
                           return (
                             <DropdownMenuCheckboxItem
                               key={color.id}
-                              disabled={field.value.length === 1 && isChecked}
+                              disabled={field?.value?.length === 1 && isChecked}
                               checked={isChecked}
                               onCheckedChange={(checked) => {
                                 const updatedColors = checked
@@ -433,7 +439,7 @@ const ProducForm = ({
                   <FormLabel>choose a size</FormLabel>
                   <FormControl>
                     <Select
-                      defaultValue={product?.sizeId}
+                      defaultValue={product?.sizeId || ""}
                       onValueChange={(e) =>
                         form.setValue("sizeId", e, {
                           shouldDirty: true,
@@ -472,7 +478,7 @@ const ProducForm = ({
                   <FormLabel>choose a category</FormLabel>
                   <FormControl>
                     <Select
-                      defaultValue={product?.categoryId}
+                      defaultValue={product?.categoryId ||""}
                       onValueChange={(e) =>
                         form.setValue("categoryId", e, {
                           shouldDirty: true,

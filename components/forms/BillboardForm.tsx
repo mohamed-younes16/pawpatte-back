@@ -107,7 +107,7 @@ const BillboardForm = ({
               defaultValue={"image"}
               onValueChange={(e) => setIsVideo(e == "video")}
             >
-              <SelectTrigger className="w-[180px] ring-0 p-0 !shadow-none">
+              <SelectTrigger className="w-[180px] ring-0 px-2 !shadow-none">
                 <SelectValue placeholder="Select a billboard" />
               </SelectTrigger>
               <SelectContent className="!shadow-none">
@@ -180,7 +180,7 @@ const BillboardForm = ({
                 <FormItem className="flex flex-row max-lg:col-span-2  max-md:col-span-full  items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
-                      defaultChecked={billboard.shown || false}
+                      defaultChecked={billboard?.shown || false}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
