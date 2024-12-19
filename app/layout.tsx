@@ -26,6 +26,7 @@ export default async function RootLayout({
       >
         <body>
           <ThemeProvider
+
             attribute="class"
             defaultTheme="system"
             enableSystem
